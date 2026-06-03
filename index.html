@@ -106,7 +106,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
 .ring:hover{border-color:#4a7c65;background:#f0f8f4}
 .ring.ticked{background:#2d4a3e;border-color:#2d4a3e;color:#fff}
 .ring.ticked::after{content:'✓';font-size:11px;color:#fff;font-weight:700}
-.ttitle{font-size:15px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ttitle{font-size:16px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tdue{font-size:12px;color:#b0a090;white-space:nowrap}
 .xbtn{background:none;border:none;color:#ddd;cursor:pointer;font-size:13px;padding:0 2px;line-height:1;flex-shrink:0;transition:color .12s}
 .xbtn:hover{color:#c45c2a}
@@ -116,7 +116,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
 .goal-card{background:#fdf9f5;border:1px solid #ddd5c8;border-radius:16px;padding:16px;margin-bottom:10px;position:relative;overflow:hidden;transition:border-color .12s}
 .goal-card:hover{border-color:#c8c5be}
 .goal-card-deco{position:absolute;right:-10px;bottom:-10px;pointer-events:none;opacity:.05}
-.goal-name{font-family:'DM Serif Display',serif;font-size:17px;letter-spacing:-.2px;margin-bottom:2px;display:flex;align-items:center;gap:7px}
+.goal-name{font-family:'DM Serif Display',serif;font-size:18px;letter-spacing:-.2px;margin-bottom:2px;display:flex;align-items:center;gap:7px}
 .goal-meta{font-size:11px;color:#aaa;margin-bottom:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .ptrack{height:6px;background:#ddd5c8;border-radius:3px;overflow:hidden;margin-bottom:10px}
 .pfill{height:5px;background:#2d4a3e;border-radius:3px;transition:width .5s}
@@ -173,7 +173,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
 .exp-row:hover{border-color:#c8c5be}
 .exp-emoji{font-size:18px;flex-shrink:0}
 .exp-info{flex:1;min-width:0}
-.exp-title{font-size:15px;color:#2a2018;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.exp-title{font-size:16px;color:#2a2018;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .exp-meta{font-size:11px;color:#aaa;margin-top:1px;display:flex;align-items:center;gap:5px}
 .pay-badge{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:500}
 .pay-cash{background:#fef9e8;color:#8a6d3b}
@@ -257,10 +257,24 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
   .mob-add.personal{background:#4a3d6e}
   .content-area{padding:14px 16px 110px;flex:1;overflow-y:auto}
   .mob-bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#f0e8de;border-top:1px solid #d9d0c4;z-index:50;padding-bottom:max(env(safe-area-inset-bottom),16px)}
-  .mob-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 8px;border:none;background:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:10px;color:#c4b5a5;color:#aaa;transition:color .12s}
-  .mob-nav-btn{color:#c4b5a5}.mob-nav-btn.on{color:#6b4f3a}.mob-nav-btn .svg-icon path,.mob-nav-btn .svg-icon circle,.mob-nav-btn .svg-icon rect,.mob-nav-btn .svg-icon line,.mob-nav-btn .svg-icon polyline{stroke:#c8b9a8}.mob-nav-btn.on .svg-icon path,.mob-nav-btn.on .svg-icon circle,.mob-nav-btn.on .svg-icon rect,.mob-nav-btn.on .svg-icon line,.mob-nav-btn.on .svg-icon polyline{stroke:#7a5c45}
+  .mob-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px 8px;border:none;background:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11px;color:#c4b5a5;transition:color .12s}
   .mob-nav-btn.on.personal{color:#4a3d6e}
   .mob-nav-btn i{font-size:19px}
+  .ttitle{font-size:16px!important}
+  .goal-name{font-size:18px!important}
+  .exp-title{font-size:16px!important}
+  .exp-amt{font-size:17px!important}
+  .msrow{font-size:14px!important}
+  .diary-q-label{font-size:14px!important}
+  .alarm-label{font-size:15px!important}
+  .alarm-time{font-size:13px!important}
+  .habit-name{font-size:15px!important}
+  .tg-name{font-size:12px!important}
+  .cal-month-lbl{font-size:18px!important}
+  .ci-date-lbl{font-size:16px!important}
+  .diary-date-lbl{font-size:16px!important}
+  input, select, textarea{font-size:16px!important}
+
   .day{min-height:46px;padding:4px 3px}
   .dnum{font-size:12px}
   .epill{display:none}
