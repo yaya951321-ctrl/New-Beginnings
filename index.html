@@ -41,9 +41,9 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 22px 12px;border-bottom:1px solid #d9d0c4;background:#f2ece4;position:relative;overflow:hidden}
 .topbar-deco{position:absolute;right:0;top:0;bottom:0;width:160px;pointer-events:none;opacity:.06}
 .tb-left{position:relative;z-index:1}
-.tb-title{font-family:'DM Serif Display',serif;font-size:22px;letter-spacing:-.3px;display:flex;align-items:center;gap:8px}
+.tb-title{font-family:'DM Serif Display',serif;font-size:22px;letter-spacing:-.3px;display:flex;align-items:center;gap:8px;white-space:nowrap}
 .tb-date{font-size:11px;color:#aaa;margin-top:2px}
-.tb-mode-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;margin-left:4px}
+.tb-mode-badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;margin-left:4px;white-space:nowrap;flex-shrink:0}
 .badge-work{background:#e8f0ec;color:#2d4a3e}
 .badge-personal{background:#ede8f5;color:#4a3d6e}
 .add-btn{background:#2d4a3e;color:#fff;border:none;border-radius:9px;padding:7px 13px;font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;font-weight:500;position:relative;z-index:1;transition:background .2s}
@@ -243,7 +243,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
   .main-area{flex:1;display:flex;flex-direction:column;min-height:0}
   .topbar{display:none}
   .mob-topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;border-bottom:1px solid #eae7e0;background:#fafaf8;position:sticky;top:0;z-index:10;gap:8px}
-  .mob-title{font-family:'DM Serif Display',serif;font-size:19px;letter-spacing:-.2px;display:flex;align-items:center;gap:5px;flex:1;min-width:0}
+  .mob-title{font-family:'DM Serif Display',serif;font-size:19px;letter-spacing:-.2px;display:flex;align-items:center;gap:6px;flex:1;min-width:0;white-space:nowrap;overflow:hidden}
   .mob-mode-toggle{display:flex;background:#f3f2ef;border-radius:8px;padding:2px;gap:2px}
   .mob-mode-btn{padding:4px 8px;border:none;background:none;border-radius:6px;font-size:11px;color:#aaa;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .2s}
   .mob-mode-btn.on{background:#fff;color:#1a1a1a;box-shadow:0 1px 2px rgba(0,0,0,.06)}
