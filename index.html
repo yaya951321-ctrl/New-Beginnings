@@ -37,7 +37,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
 .nav-footer-text{font-size:10px;color:rgba(255,255,255,.28);line-height:1.6}
 
 /* ── Main ── */
-.main-area{display:flex;flex-direction:column;min-width:0;background:#f7f3ee}
+.main-area{display:flex;flex-direction:column;min-width:0;background:#f7f3ee;overflow:hidden}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 22px 12px;border-bottom:1px solid #d9d0c4;background:#f2ece4;position:relative;overflow:hidden}
 .topbar-deco{position:absolute;right:0;top:0;bottom:0;width:160px;pointer-events:none;opacity:.06}
 .tb-left{position:relative;z-index:1}
@@ -242,7 +242,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
   .sidenav{display:none}
   .main-area{flex:1;display:flex;flex-direction:column;min-height:0}
   .topbar{display:none}
-  .mob-topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;border-bottom:1px solid #d9d0c4;background:#f2ece4;position:sticky;top:0;z-index:10;gap:8px;min-height:52px;box-sizing:border-box}
+  .mob-topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #d9d0c4;background:#f2ece4;position:sticky;top:0;z-index:10;gap:8px;height:52px;box-sizing:border-box;overflow:hidden}
   .mob-title{font-family:'DM Serif Display',serif;font-size:18px;letter-spacing:-.2px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#3a2a1e;line-height:1.2}
   .mob-mode-toggle{display:flex;background:#e0d8ce;border-radius:8px;padding:2px;gap:2px;flex-shrink:0}
   .mob-mode-btn{padding:4px 8px;border:none;background:none;border-radius:6px;font-size:11px;color:#aaa;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .2s}
@@ -407,7 +407,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
         <button class="mob-mode-btn on" id="mob-work-btn" onclick="setMode('work')">工作</button>
         <button class="mob-mode-btn" id="mob-personal-btn" onclick="setMode('personal')">個人</button>
       </div>
-      <button class="mob-add" id="mob-add-btn" onclick="doAdd()">＋</button>
+      <button onclick="openReminders()" style="background:none;border:none;font-size:20px;cursor:pointer;padding:4px;flex-shrink:0" title="提醒">🔔</button><button class="mob-add" id="mob-add-btn" onclick="doAdd()">＋</button>
     </div>
   </div>
 
@@ -627,6 +627,39 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
     <div id="greeting-date" style="font-size:12px;color:#c4b5a5;margin-bottom:24px"></div>
     <div id="greeting-quote" style="font-size:13px;color:#7a6858;font-style:italic;margin-bottom:24px;line-height:1.6;padding:12px 16px;background:#ede7de;border-radius:12px"></div>
     <button onclick="closeGreeting()" style="width:100%;background:#6b4f3a;color:#fff;border:none;border-radius:12px;padding:13px;font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500;letter-spacing:.02em">開始今天 ✦</button>
+  </div>
+</div>
+
+
+<!-- In-app alert banner -->
+<div id="in-app-alert" style="display:none;position:fixed;top:64px;left:50%;transform:translateX(-50%);background:#3a2a1e;color:#f7f2eb;padding:12px 18px;border-radius:14px;font-size:13px;z-index:600;box-shadow:0 8px 24px rgba(0,0,0,.2);max-width:280px;width:90%;text-align:center">
+  <div id="alert-title" style="font-weight:500;margin-bottom:3px">⏰ 提醒</div>
+  <div id="alert-sub" style="font-size:11px;opacity:.75"></div>
+  <button onclick="document.getElementById('in-app-alert').style.display='none'" style="margin-top:8px;background:rgba(255,255,255,.2);border:none;border-radius:8px;padding:4px 12px;color:#f7f2eb;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif">知道了</button>
+</div>
+
+<!-- Reminder sheet -->
+<div id="reminder-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(44,35,28,.5);z-index:450">
+  <div style="position:absolute;bottom:0;left:0;right:0;background:#f7f2eb;border-radius:20px 20px 0 0;padding:20px 20px 40px;max-height:75vh;overflow-y:auto" onclick="event.stopPropagation()">
+    <div style="width:36px;height:4px;background:#d4c9bc;border-radius:2px;margin:0 auto 16px"></div>
+    <div style="font-family:'DM Serif Display',serif;font-size:17px;color:#3a2a1e;margin-bottom:14px">🔔 提醒設定</div>
+    
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#b0a090;font-weight:500;margin-bottom:8px">今日待辦</div>
+    <div id="reminder-today-list"></div>
+    
+    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#b0a090;font-weight:500;margin:14px 0 8px">⏰ 鬧鐘（app 開著時有效）</div>
+    <div id="alarm-list"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+      <input type="time" id="alarm-time-input" value="09:00" style="flex:none;width:110px;background:#f2ebe1;border:1px solid #cec4b5;border-radius:9px;padding:8px 11px;font-size:13px;color:#3a2a1e;font-family:'DM Sans',sans-serif;outline:none"/>
+      <input type="text" id="alarm-label-input" placeholder="提醒內容（選填）" style="flex:1;min-width:120px;background:#f2ebe1;border:1px solid #cec4b5;border-radius:9px;padding:8px 11px;font-size:13px;color:#3a2a1e;font-family:'DM Sans',sans-serif;outline:none"/>
+      <button onclick="addAlarm()" style="background:#6b4f3a;color:#fff;border:none;border-radius:9px;padding:8px 14px;font-size:13px;cursor:pointer;white-space:nowrap">＋ 新增</button>
+    </div>
+    
+    <div style="margin-top:14px;padding:12px;background:#ede7de;border-radius:12px;font-size:12px;color:#9a8878;line-height:1.6">
+      💡 iOS 限制：背景推播需要系統權限，鬧鐘只在 app 開著時有效。
+    </div>
+    
+    <button onclick="closeReminders()" style="width:100%;margin-top:14px;background:#6b4f3a;color:#fff;border:none;border-radius:12px;padding:13px;font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500">完成</button>
   </div>
 </div>
 
@@ -1392,6 +1425,122 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 
 
+
+// ── Reminders ────────────────────────────────────────────────
+let alarms = load('pl_alarms', []);
+let alarmTimers = [];
+
+function openReminders(){
+  renderReminderSheet();
+  document.getElementById('reminder-overlay').style.display='block';
+}
+function closeReminders(){
+  document.getElementById('reminder-overlay').style.display='none';
+}
+
+function renderReminderSheet(){
+  // Today's tasks with due dates
+  const todayAndOverdue = tasks.filter(t => !t.done && t.due && t.due <= TODAY);
+  const upcoming = tasks.filter(t => !t.done && t.due && t.due > TODAY).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,5);
+  const allRemind = [...todayAndOverdue, ...upcoming];
+  
+  const cfg = mode==='work' ? workTaCfg : persTaCfg;
+  document.getElementById('reminder-today-list').innerHTML = allRemind.length
+    ? allRemind.map(t => {
+        const c = cfg[t.cat]||cfg.g;
+        const isOverdue = t.due < TODAY;
+        const isTod = t.due === TODAY;
+        return '<div class="reminder-item">'
+          +'<span style="font-size:18px">'+c.emoji+'</span>'
+          +'<div class="reminder-item-info">'
+            +'<div class="reminder-item-title">'+t.title+'</div>'
+            +'<div class="reminder-item-sub">'+(isOverdue?'⚠️ 已逾期':isTod?'📅 今天到期':'📅 '+t.due.slice(5).replace('-','/'))+'</div>'
+          +'</div>'
+          +(isOverdue?'<span class="reminder-time-badge" style="background:#fdf0ea;color:#c45c2a">逾期</span>':'')
+          +'</div>';
+      }).join('')
+    : '<div class="empty-reminder">沒有待辦任務 🎉</div>';
+
+  // Alarms
+  renderAlarmList();
+}
+
+function renderAlarmList(){
+  const el = document.getElementById('alarm-list');
+  el.innerHTML = alarms.length
+    ? alarms.map((a,i) => '<div class="alarm-row">'
+        +'<div class="alarm-info"><div class="alarm-label">⏰ '+(a.label||'提醒')+'</div><div class="alarm-time">'+a.time+'</div></div>'
+        +'<button class="alarm-del" onclick="delAlarm('+i+')">✕</button>'
+        +'</div>').join('')
+    : '<div class="empty-reminder" style="margin-bottom:8px">尚未設定鬧鐘</div>';
+}
+
+function addAlarm(){
+  const time = document.getElementById('alarm-time-input').value;
+  const label = document.getElementById('alarm-label-input').value.trim() || '該做點什麼了';
+  if(!time) return;
+  alarms.push({time, label});
+  save('pl_alarms', alarms);
+  document.getElementById('alarm-label-input').value = '';
+  renderAlarmList();
+  scheduleAlarms();
+  toast('鬧鐘已設定 ⏰');
+}
+
+function delAlarm(i){
+  alarms.splice(i,1);
+  save('pl_alarms', alarms);
+  renderAlarmList();
+  scheduleAlarms();
+}
+
+function scheduleAlarms(){
+  // Clear existing timers
+  alarmTimers.forEach(t => clearTimeout(t));
+  alarmTimers = [];
+  
+  const now2 = new Date();
+  alarms.forEach(a => {
+    const [h,m] = a.time.split(':').map(Number);
+    const alarmTime = new Date();
+    alarmTime.setHours(h, m, 0, 0);
+    if(alarmTime <= now2) alarmTime.setDate(alarmTime.getDate()+1); // next day if passed
+    const ms = alarmTime - now2;
+    const timer = setTimeout(() => {
+      showInAppAlert('⏰ '+a.label, a.time);
+      // reschedule for next day
+      scheduleAlarms();
+    }, ms);
+    alarmTimers.push(timer);
+  });
+}
+
+function showInAppAlert(title, sub){
+  const el = document.getElementById('in-app-alert');
+  document.getElementById('alert-title').textContent = title;
+  document.getElementById('alert-sub').textContent = sub;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 8000);
+  // Try vibrate
+  if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
+}
+
+function checkDailyReminders(){
+  // On open: show banner if overdue tasks exist
+  const overdue = tasks.filter(t => !t.done && t.due && t.due < TODAY);
+  const dueToday = tasks.filter(t => !t.done && t.due && t.due === TODAY);
+  if(overdue.length > 0){
+    setTimeout(() => showInAppAlert('⚠️ 有 '+overdue.length+' 項逾期任務', '點任務頁面查看'), 2000);
+  } else if(dueToday.length > 0){
+    setTimeout(() => showInAppAlert('📅 今天有 '+dueToday.length+' 項任務到期', '記得完成哦！'), 2000);
+  }
+  scheduleAlarms();
+}
+
+document.getElementById('reminder-overlay').addEventListener('click', function(e){
+  if(e.target===this) closeReminders();
+});
+
 // ── Greeting ─────────────────────────────────────────────────
 function showGreeting(){
   const h=new Date().getHours();
@@ -1444,6 +1593,7 @@ buildCatSelect('gf-c',workGoCfg);
 renderCal();
 document.getElementById('mob-modal').addEventListener('click',function(e){if(e.target===this)closeMobModal()});
   setTimeout(showGreeting, 400);
+  checkDailyReminders();
 </script>
 
 <script>
