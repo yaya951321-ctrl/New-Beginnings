@@ -236,6 +236,12 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
 
 /* ── MOBILE ── */
 @media(max-width:640px){
+  .mob-nav-btn svg{width:22px;height:22px;display:block;flex-shrink:0;color:inherit;stroke:currentColor}
+  .mob-nav-btn{color:#c4b5a5}
+  .mob-nav-btn.on{color:#6b4f3a}
+  .mob-nav-btn.on svg{stroke:#6b4f3a}
+  .mob-nav-btn svg *{stroke:inherit;fill:none!important}
+
   body{padding:0;align-items:stretch;background:#ede8df}
   .app{max-width:100%;border-radius:0;border:none;min-height:100dvh;display:flex;flex-direction:column;background:#f7f3ee}
   .layout{display:flex;flex-direction:column;flex:1;min-height:0}
@@ -587,7 +593,36 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
 </div>
 </div>
 
-<nav class="mob-bottom-nav" id="mob-bottom-nav"></nav>
+<nav class="mob-bottom-nav" id="mob-bottom-nav">
+  <button class="mob-nav-btn on" data-id="cal" onclick="go(this.dataset.id)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+    月曆
+  </button>
+  <button class="mob-nav-btn" data-id="checkin" onclick="go(this.dataset.id)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+    每日檢核
+  </button>
+  <button class="mob-nav-btn" data-id="ledger" onclick="go(this.dataset.id)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M7 15h.01M12 15h2"/></svg>
+    記帳
+  </button>
+  <button class="mob-nav-btn" data-id="diary" onclick="go(this.dataset.id)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
+    日記
+  </button>
+  <button class="mob-nav-btn" data-id="tasks" onclick="go(this.dataset.id)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    當週任務
+  </button>
+  <button class="mob-nav-btn" data-id="goals" onclick="go(this.dataset.id)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+    目標
+  </button>
+  <button class="mob-nav-btn" data-id="ov" onclick="go(this.dataset.id)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 5-5"/></svg>
+    總覽
+  </button>
+</nav>
 
 <div class="modal-overlay" id="mob-modal">
   <div class="modal-sheet">
@@ -647,7 +682,7 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
     <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#b0a090;font-weight:500;margin-bottom:8px">今日待辦</div>
     <div id="reminder-today-list"></div>
     
-    <div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#b0a090;font-weight:500;margin:14px 0 8px">⏰ 鬧鐘（app 開著時有效）</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0 8px"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#b0a090;font-weight:500">⏰ 鬧鐘提醒</div><button onclick="exportAllAlarms()" style="font-size:11px;color:#6b4f3a;background:#ede7de;border:none;border-radius:8px;padding:4px 10px;cursor:pointer;font-family:'DM Sans',sans-serif">📲 全部匯出</button></div>
     <div id="alarm-list"></div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
       <input type="time" id="alarm-time-input" value="09:00" style="flex:none;width:110px;background:#f2ebe1;border:1px solid #cec4b5;border-radius:9px;padding:8px 11px;font-size:13px;color:#3a2a1e;font-family:'DM Sans',sans-serif;outline:none"/>
@@ -656,7 +691,8 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
     </div>
     
     <div style="margin-top:14px;padding:12px;background:#ede7de;border-radius:12px;font-size:12px;color:#9a8878;line-height:1.6">
-      💡 iOS 限制：背景推播需要系統權限，鬧鐘只在 app 開著時有效。
+      ⏰ App 開著時會響。
+      📲 點每筆旁的按鈕，直接開啟 iPhone「提醒事項」app，背景也能通知。
     </div>
     
     <button onclick="closeReminders()" style="width:100%;margin-top:14px;background:#6b4f3a;color:#fff;border:none;border-radius:12px;padding:13px;font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;font-weight:500">完成</button>
@@ -710,14 +746,16 @@ const sboxDeco='<svg class="sbox-deco" width="60" height="60" viewBox="0 0 60 60
 const goalDeco='<svg class="goal-card-deco" width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#2d4a3e" stroke-width="1.2"><circle cx="40" cy="40" r="30" stroke-dasharray="3 6"/><circle cx="40" cy="40" r="18"/><circle cx="40" cy="40" r="6"/><path d="M40,10L40,22M40,58L40,70M10,40L22,40M58,40L70,40"/></g></svg>';
 
 // ── Navigation config ────────────────────────────────────────
-const workNav=[{id:'cal',label:'月曆',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M16 2v4M8 2v4M3 10h18\"/><path d=\"M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01\"/></svg>'},{id:'checkin',label:'每日檢核',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 3\"/><path d=\"M5.5 5.5l1.5 1.5M18.5 5.5l-1.5 1.5\"/></svg>'},{id:'ledger',label:'記帳',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><path d=\"M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7\"/><path d=\"M16 19h6m-3-3v6\"/><path d=\"M7 9h10M7 13h6\"/></svg>'},{id:'diary',label:'日記',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><path d=\"M4 19.5A2.5 2.5 0 0 1 6.5 17H20\"/><path d=\"M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z\"/><path d=\"M8 7h8M8 11h8M8 15h5\"/></svg>'},{id:'tasks',label:'當週任務',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><path d=\"M9 11l3 3L22 4\"/><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"/></svg>'},{id:'goals',label:'目標',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"1\"/><path d=\"M12 3v2M12 19v2M3 12h2M19 12h2\"/></svg>'},{id:'ov',label:'總覽',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><path d=\"M3 3v18h18\"/><path d=\"M7 16l4-4 4 4 5-5\"/></svg>'}];
+const workNav=[{id:'cal',label:'月曆',emoji:'📅',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M16 2v4M8 2v4M3 10h18\"/><path d=\"M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01\"/></svg>'},{id:'checkin',label:'每日檢核',emoji:'☀️',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 3\"/><path d=\"M5.5 5.5l1.5 1.5M18.5 5.5l-1.5 1.5\"/></svg>'},{id:'ledger',label:'記帳',emoji:'💰',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><path d=\"M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7\"/><path d=\"M16 19h6m-3-3v6\"/><path d=\"M7 9h10M7 13h6\"/></svg>'},{id:'diary',label:'日記',emoji:'📓',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><path d=\"M4 19.5A2.5 2.5 0 0 1 6.5 17H20\"/><path d=\"M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z\"/><path d=\"M8 7h8M8 11h8M8 15h5\"/></svg>'},{id:'tasks',label:'當週任務',emoji:'✅',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><path d=\"M9 11l3 3L22 4\"/><path d=\"M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11\"/></svg>'},{id:'goals',label:'目標',emoji:'🎯',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"1\"/><path d=\"M12 3v2M12 19v2M3 12h2M19 12h2\"/></svg>'},{id:'ov',label:'總覽',emoji:'📊',svg:'<svg class=\"svg-icon\" fill=\"none\" viewBox=\"0 0 24 24\"><path d=\"M3 3v18h18\"/><path d=\"M7 16l4-4 4 4 5-5\"/></svg>'}];
 const pTitles={cal:'月曆',tasks:'當週任務',goals:'目標規劃',checkin:'每日檢核',diary:'每日日記',ledger:'記帳本',ov:'總覽'};
 
 function buildNav(){
   const ni=document.getElementById('nav-items');
   ni.innerHTML='<div class="nav-section-label">功能</div>'+workNav.map(function(n){return '<button class="nav-btn'+(n.id===(curP||'cal')?' on':'')+' mob-nav-id-'+n.id+'" data-id="'+n.id+'" onclick="go(this.dataset.id)">'+n.svg+n.label+'</button>';}).join('');
   const mob=document.getElementById('mob-bottom-nav');
-  mob.innerHTML=workNav.map(n=>'<button class="mob-nav-btn'+(n.id===(curP||'cal')?' on':'')+' mob-nav-id-'+n.id+'" data-id="'+n.id+'" onclick="go(this.dataset.id)">'+n.svg+'<span style="font-size:10px;display:block;margin-top:2px">'+n.label+'</span></button>').join('');
+  // mob nav is static HTML
+
+
 
 }
 
@@ -725,7 +763,7 @@ let curP='cal';
 function go(p){
   curP=p;
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('on',b.getAttribute('onclick')===`go('${p}')`));
-  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.toggle('on', b.dataset.id===p));
+  document.querySelectorAll('#mob-bottom-nav .mob-nav-btn').forEach(function(b){b.classList.toggle('on', b.dataset.id===p);});
   document.querySelectorAll('.pane').forEach(v=>v.classList.remove('on'));
   document.getElementById('p-'+p).classList.add('on');
   document.getElementById('tb-title').innerHTML=pTitles[p]+'<span class="tb-mode-badge '+(mode==='work'?'badge-work':'badge-personal')+'" id="mode-badge">'+(mode==='work'?'工作':'個人')+'</span>';
@@ -1470,6 +1508,7 @@ function renderAlarmList(){
   el.innerHTML = alarms.length
     ? alarms.map((a,i) => '<div class="alarm-row">'
         +'<div class="alarm-info"><div class="alarm-label">⏰ '+(a.label||'提醒')+'</div><div class="alarm-time">'+a.time+'</div></div>'
+        +'<button class="alarm-export-btn" onclick="exportToReminders('+i+')" title="匯出到提醒事項">📲</button>'
         +'<button class="alarm-del" onclick="delAlarm('+i+')">✕</button>'
         +'</div>').join('')
     : '<div class="empty-reminder" style="margin-bottom:8px">尚未設定鬧鐘</div>';
@@ -1524,6 +1563,23 @@ function showInAppAlert(title, sub){
   // Try vibrate
   if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
 }
+
+
+function exportToReminders(i){
+  const a = alarms[i];
+  const title = encodeURIComponent(a.label || 'Planner 提醒');
+  // Open iPhone Reminders app directly
+  window.location.href = 'x-apple-reminderkit://REMCDReminder/?title=' + title;
+  setTimeout(function(){
+    toast('已開啟「提醒事項」app，記得設定時間 ⏰');
+  }, 800);
+}
+
+function exportAllAlarms(){
+  if(!alarms.length){ toast('尚未設定鬧鐘'); return; }
+  showInAppAlert('📲 提醒事項', '點每個鬧鐘旁的 📲，一鍵加入 iPhone 提醒事項');
+}
+
 
 function checkDailyReminders(){
   // On open: show banner if overdue tasks exist
