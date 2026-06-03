@@ -242,11 +242,11 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
   .sidenav{display:none}
   .main-area{flex:1;display:flex;flex-direction:column;min-height:0}
   .topbar{display:none}
-  .mob-topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;border-bottom:1px solid #eae7e0;background:#fafaf8;position:sticky;top:0;z-index:10;gap:8px}
-  .mob-title{font-family:'DM Serif Display',serif;font-size:19px;letter-spacing:-.2px;display:flex;align-items:center;gap:6px;flex:1;min-width:0;white-space:nowrap;overflow:hidden}
-  .mob-mode-toggle{display:flex;background:#f3f2ef;border-radius:8px;padding:2px;gap:2px}
+  .mob-topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;border-bottom:1px solid #d9d0c4;background:#f2ece4;position:sticky;top:0;z-index:10;gap:8px;min-height:52px;box-sizing:border-box}
+  .mob-title{font-family:'DM Serif Display',serif;font-size:18px;letter-spacing:-.2px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#3a2a1e;line-height:1.2}
+  .mob-mode-toggle{display:flex;background:#e0d8ce;border-radius:8px;padding:2px;gap:2px;flex-shrink:0}
   .mob-mode-btn{padding:4px 8px;border:none;background:none;border-radius:6px;font-size:11px;color:#aaa;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:all .2s}
-  .mob-mode-btn.on{background:#fff;color:#1a1a1a;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+  .mob-mode-btn.on{background:#f7f2eb;color:#3a2a1e;box-shadow:0 1px 2px rgba(0,0,0,.06)}
   .mob-add{background:#2d4a3e;color:#fff;border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;flex-shrink:0;transition:background .2s}
   .mob-add.personal{background:#4a3d6e}
   .content-area{padding:14px 16px 110px;flex:1;overflow-y:auto}
@@ -401,12 +401,14 @@ body{display:flex;align-items:flex-start;justify-content:center;padding:24px 16p
   </div>
 
   <div class="mob-topbar">
-    <div class="mob-title" id="mob-title"><span>📅</span>月曆</div>
-    <div class="mob-mode-toggle">
-      <button class="mob-mode-btn on" id="mob-work-btn" onclick="setMode('work')">工作</button>
-      <button class="mob-mode-btn" id="mob-personal-btn" onclick="setMode('personal')">個人</button>
+    <div class="mob-title" id="mob-title">月曆</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+      <div class="mob-mode-toggle">
+        <button class="mob-mode-btn on" id="mob-work-btn" onclick="setMode('work')">工作</button>
+        <button class="mob-mode-btn" id="mob-personal-btn" onclick="setMode('personal')">個人</button>
+      </div>
+      <button class="mob-add" id="mob-add-btn" onclick="doAdd()">＋</button>
     </div>
-    <button class="mob-add" id="mob-add-btn" onclick="doAdd()">＋</button>
   </div>
 
   <div class="content-area">
@@ -694,7 +696,7 @@ function go(p){
   document.querySelectorAll('.pane').forEach(v=>v.classList.remove('on'));
   document.getElementById('p-'+p).classList.add('on');
   document.getElementById('tb-title').innerHTML=pTitles[p]+'<span class="tb-mode-badge '+(mode==='work'?'badge-work':'badge-personal')+'" id="mode-badge">'+(mode==='work'?'工作':'個人')+'</span>';
-  const _ni=workNav.find(function(n){return n.id===p;}); document.getElementById('mob-title').innerHTML=(_ni?_ni.svg:'')+pTitles[p];
+  document.getElementById('mob-title').textContent=pTitles[p];
   if(p==='cal') renderCal();
   if(p==='tasks'){buildCatSelect('sf-c',mode==='work'?workTaCfg:persTaCfg);renderTasks();}
   if(p==='goals'){buildCatSelect('gf-c',mode==='work'?workGoCfg:persGoCfg);renderGoals();}
